@@ -122,7 +122,7 @@ const fileContent = `## ${commit}
 working with: ${
 	group.linkToworkingWith
 		? `[${group.workingWith}](${group.linkToworkingWith})`
-		: group.linkToworkingWith
+		: group.workingWith
 }
 
 progress: ${group.progess}
