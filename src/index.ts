@@ -5,7 +5,7 @@ import { exec as _exec } from "node:child_process";
 
 const exec = util.promisify(_exec);
 
-intro(`Today I learned`);
+intro("Today I learned");
 
 const START_DATE = "2022-06-01";
 const DAYS_REPO_PATH = "/home/alexs/personal/1000days";
@@ -33,7 +33,7 @@ const now = new Date().getTime();
 
 const today = Math.ceil((now - start) / 24 / 60 / 60 / 1000);
 
-const todayPath = mapped.find((item) => today > item[0] && today < item[1]);
+const todayPath = mapped.find((item) => today >= item[0] && today < item[1]);
 if (!todayPath) throw new Error("can't find path to today's md file");
 const filePath = `${DAYS_REPO_PATH}/${todayPath[2]}`;
 
@@ -99,8 +99,9 @@ async function getRepo() {
 			.split(" ")[1];
 
 		return repo;
-	} catch (error: any) {
-		if ("message" in error) console.error("getRepo ~ error:", error.message);
+	} catch (error) {
+		if (error instanceof Error)
+			console.error("getRepo ~ error:", error.message);
 		return "";
 	}
 }
@@ -140,7 +141,7 @@ try {
 	console.log("🚀 ~ commit:", commit);
 	console.log("🚀 ~ fileContent:", fileContent);
 
-	outro(`Completed successfully`);
+	outro("Completed successfully");
 } catch (e) {
 	console.error("Error during writing files");
 }
