@@ -112,7 +112,7 @@ const year = new Date().getFullYear();
 const month = new Date().getMonth() + 1;
 const day = new Date().getDate();
 
-const fileName = `${today}[${day}.${month}.${year}].md`;
+const fileName = `${today}[${withLeadingZero(day)}.${month}.${year}].md`;
 
 const commit = `Day ${today} (${group.subject} | ${group.duration} ${getHours(
 	group.duration,
@@ -144,4 +144,9 @@ try {
 	outro("Completed successfully");
 } catch (e) {
 	console.error("Error during writing files");
+}
+
+function withLeadingZero(num: number): string {
+	if (num < 10) return `0${num}`;
+	return `${num}`;
 }
