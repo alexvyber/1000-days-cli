@@ -2,6 +2,7 @@ import { intro, outro } from "@clack/prompts";
 import * as p from "@clack/prompts";
 import util from "node:util";
 import { exec as _exec } from "node:child_process";
+import fs from 'node:fs/promises'
 
 const exec = util.promisify(_exec);
 
@@ -135,8 +136,8 @@ function getHours(hours: string) {
 }
 
 try {
-	await Bun.write(`${filePath}/${fileName}`, fileContent);
-	await Bun.write(`${DAYS_REPO_PATH}/.today_commit`, commit);
+	await fs.writeFile(`${filePath}/${fileName}`, fileContent);
+	await fs.writeFile(`${DAYS_REPO_PATH}/.today_commit`, commit);
 
 	console.log("🚀 ~ commit:", commit);
 	console.log("🚀 ~ fileContent:", fileContent);
