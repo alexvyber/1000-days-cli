@@ -108,7 +108,7 @@ const year = new Date().getFullYear()
 const month = new Date().getMonth() + 1
 const day = new Date().getDate()
 
-const fileName = `${today}[${withLeadingZero(day)}.${month}.${year}].md`
+const fileName = `${today}[${leftPad(day)}.${leftPad(month)}.${year}].md`
 
 const commit = `Day ${today} (${group.subject} | ${group.duration} ${getHours(group.duration)}): ${group.commitMessage}`
 
@@ -138,7 +138,12 @@ try {
   console.error("Error during writing files")
 }
 
-function withLeadingZero(num: number): string {
+function leftPad(number: number | string): string {
+  const num = Number(number)
+
+  if (!(typeof num !== number) || Number.isNaN(num) || !Number.isInteger(num)) throw new Error("Must be correct number")
+
   if (num < 10) return `0${num}`
+
   return `${num}`
 }
