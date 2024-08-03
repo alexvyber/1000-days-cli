@@ -19,14 +19,14 @@ const dirs = [
   "800_899",
   "900_1000",
 ]
-const mapped = dirs.map(dir => {
-  const item = dir.split("_").map(item => Number.parseInt(item))
+const mapped = dirs.map((dir) => {
+  const item = dir.split("_").map((item) => Number.parseInt(item))
   return [...item, dir]
 })
 const start = new Date(START_DATE).getTime()
 const now = new Date().getTime()
 const today = Math.ceil((now - start) / 24 / 60 / 60 / 1000)
-const todayPath = mapped.find(item => today >= item[0] && today < item[1])
+const todayPath = mapped.find((item) => today >= item[0] && today < item[1])
 if (!todayPath) throw new Error("can't find path to today's md file")
 const filePath = `${DAYS_REPO_PATH}/${todayPath[2]}`
 const group = await p.group(
@@ -34,28 +34,28 @@ const group = await p.group(
     subject: () =>
       p.text({
         message: "What did you learn?",
-        validate: value => {
+        validate: (value) => {
           if (!value) return "Required"
         },
       }),
     duration: () =>
       p.text({
         message: "How long in hours?",
-        validate: value => {
+        validate: (value) => {
           if (!value) return "Required"
         },
       }),
     commitMessage: () =>
       p.text({
         message: "Commit Message",
-        validate: value => {
+        validate: (value) => {
           if (!value) return "Required"
         },
       }),
     progess: () =>
       p.text({
         message: "Progress",
-        validate: value => {
+        validate: (value) => {
           if (!value) return "Required"
         },
       }),

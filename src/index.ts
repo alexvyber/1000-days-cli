@@ -3,13 +3,14 @@ import fs from "node:fs/promises"
 import util from "node:util"
 import { intro, outro } from "@clack/prompts"
 import * as p from "@clack/prompts"
+import os from "os"
 
 const exec = util.promisify(_exec)
 
 intro("Today I learned")
 
 const START_DATE = "2022-06-01"
-const DAYS_REPO_PATH = "/home/alexs/personal/1000days"
+const DAYS_REPO_PATH = `${os.homedir()}/days/1000days`
 
 const dirs = [
   "1_99",
@@ -24,8 +25,8 @@ const dirs = [
   "900_1000",
 ]
 
-const mapped = dirs.map(dir => {
-  const item = dir.split("_").map(item => Number.parseInt(item))
+const mapped = dirs.map((dir) => {
+  const item = dir.split("_").map((item) => Number.parseInt(item))
   return [...item, dir] as [number, number, string]
 })
 
@@ -34,7 +35,7 @@ const now = new Date().getTime()
 
 const today = Math.ceil((now - start) / 24 / 60 / 60 / 1000)
 
-const todayPath = mapped.find(item => today >= item[0] && today < item[1])
+const todayPath = mapped.find((item) => today >= item[0] && today < item[1])
 if (!todayPath) throw new Error("can't find path to today's md file")
 const filePath = `${DAYS_REPO_PATH}/${todayPath[2]}`
 
@@ -43,7 +44,7 @@ const group = await p.group(
     subject: () =>
       p.text({
         message: "What did you learn?",
-        validate: value => {
+        validate: (value) => {
           if (!value) return "Required"
         },
       }),
@@ -51,21 +52,21 @@ const group = await p.group(
     duration: () =>
       p.text({
         message: "How long in hours?",
-        validate: value => {
+        validate: (value) => {
           if (!value) return "Required"
         },
       }),
     commitMessage: () =>
       p.text({
         message: "Commit Message",
-        validate: value => {
+        validate: (value) => {
           if (!value) return "Required"
         },
       }),
     progess: () =>
       p.text({
         message: "Progress",
-        validate: value => {
+        validate: (value) => {
           if (!value) return "Required"
         },
       }),
@@ -135,6 +136,7 @@ try {
 
   outro("Completed successfully")
 } catch (e) {
+  console.log("🚀 ~ e:", e)
   console.error("Error during writing files")
 }
 
